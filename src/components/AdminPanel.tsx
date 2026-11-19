@@ -367,6 +367,12 @@ export function AdminPanel({
                 onChange={(v) => updateBrand('whatsappNumber', v)}
               />
               <Field
+                label="Webhook de n8n para respuesta automática (opcional)"
+                value={draftData.brand.n8nWebhookUrl || ''}
+                onChange={(v) => updateBrand('n8nWebhookUrl', v)}
+                placeholder="https://tu-n8n.app.n8n.cloud/webhook/moulu-whatsapp"
+              />
+              <Field
                 label="PIN de administrador"
                 value={draftData.brand.adminPin}
                 onChange={(v) => updateBrand('adminPin', v)}

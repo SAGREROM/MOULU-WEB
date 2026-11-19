@@ -252,6 +252,7 @@ export function App() {
         catering={activeData.catering}
         mayoreo={activeData.mayoreo}
         whatsappNumber={brand.whatsappNumber}
+        n8nWebhookUrl={brand.n8nWebhookUrl}
       />
 
       <ReviewRewardSection config={activeData.reviewReward} />

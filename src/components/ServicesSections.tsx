@@ -1,10 +1,20 @@
-import { ArrowUpRight, CheckCircle2, MessageCircle, Package, Sparkles } from 'lucide-react';
+import { useState } from 'react';
+import {
+  ArrowUpRight,
+  Check,
+  CheckCircle2,
+  MessageCircle,
+  Package,
+  Sparkles,
+  X,
+} from 'lucide-react';
 import type { CateringConfig, WholesaleConfig } from '../types/site';
 
 interface ServicesSectionsProps {
   catering: CateringConfig;
   mayoreo: WholesaleConfig;
   whatsappNumber: string;
+  n8nWebhookUrl?: string;
 }
 
 function buildWhatsAppUrl(phone: string, text: string): string {
@@ -16,10 +26,62 @@ export function ServicesSections({
   catering,
   mayoreo,
   whatsappNumber,
+  n8nWebhookUrl,
 }: ServicesSectionsProps) {
+  const [modalService, setModalService] = useState<'catering' | 'mayoreo' | null>(null);
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [notes, setNotes] = useState('');
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const hasWebhook = Boolean(n8nWebhookUrl?.trim());
+
+  const openWhatsAppFlow = (service: 'catering' | 'mayoreo') => {
+    if (!hasWebhook) {
+      const msg =
+        service === 'catering'
+          ? '¡Hola Moulú! Me interesa cotizar su servicio de Catering / Barra Móvil.'
+          : '¡Hola Moulú! Me gustaría recibir información sobre Venta a Mayoreo.';
+      window.open(buildWhatsAppUrl(whatsappNumber, msg), '_blank', 'noreferrer');
+      return;
+    }
+    setModalService(service);
+    setStatus('idle');
+    setErrorMsg('');
+  };
+
+  const handleSubmitWebhook = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!n8nWebhookUrl || !modalService) return;
+    setStatus('sending');
+    setErrorMsg('');
+    try {
+      const res = await fetch(n8nWebhookUrl.trim(), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          source: 'moulu-web',
+          service: modalService,
+          name: name.trim(),
+          phone: phone.trim(),
+          notes: notes.trim(),
+          timestamp: new Date().toISOString(),
+        }),
+      });
+      if (!res.ok) {
+        throw new Error(`Error ${res.status}`);
+      }
+      setStatus('sent');
+    } catch {
+      setStatus('error');
+      setErrorMsg('No se pudo enviar al flujo automático. Puedes abrir WhatsApp directo abajo.');
+    }
+  };
+
   return (
     <>
-      {/* Venta a Mayoreo — Bold Split Editorial Block (creto.mx style) */}
+      {/* Venta a Mayoreo — Bold Split Editorial Block */}
       <section id="mayoreo" className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
         <div className="overflow-hidden rounded-3xl bg-[#1A1714] text-[#F9F6F1]">
           <div className="grid lg:grid-cols-12">
@@ -80,18 +142,14 @@ export function ServicesSections({
                 ))}
               </ul>
 
-              <a
-                href={buildWhatsAppUrl(
-                  whatsappNumber,
-                  '¡Hola Moulú! Me gustaría recibir información sobre Venta a Mayoreo.'
-                )}
-                target="_blank"
-                rel="noreferrer"
-                className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#F9F6F1] px-7 py-3.5 text-sm font-semibold text-[#1A1714] transition hover:bg-[#E0A97E]"
+              <button
+                type="button"
+                onClick={() => openWhatsAppFlow('mayoreo')}
+                className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#F9F6F1] px-7 py-3.5 text-sm font-semibold text-[#1A1714] transition hover:bg-[#E0A97E] cursor-pointer"
               >
                 {mayoreo.ctaText}
                 <ArrowUpRight className="h-4 w-4" />
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -125,18 +183,14 @@ export function ServicesSections({
                 ))}
               </ul>
 
-              <a
-                href={buildWhatsAppUrl(
-                  whatsappNumber,
-                  '¡Hola Moulú! Me interesa cotizar su servicio de Catering / Barra Móvil.'
-                )}
-                target="_blank"
-                rel="noreferrer"
-                className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#1A1714] px-7 py-3.5 text-sm font-medium text-[#F9F6F1] transition hover:bg-[#C67D4E]"
+              <button
+                type="button"
+                onClick={() => openWhatsAppFlow('catering')}
+                className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#1A1714] px-7 py-3.5 text-sm font-medium text-[#F9F6F1] transition hover:bg-[#C67D4E] cursor-pointer"
               >
                 <MessageCircle className="h-4 w-4" />
                 {catering.ctaText}
-              </a>
+              </button>
             </div>
 
             <div className="lg:col-span-6">
@@ -180,6 +234,127 @@ export function ServicesSections({
           </div>
         </div>
       </section>
+
+      {/* n8n + WhatsApp Modal */}
+      {modalService && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
+          <div className="relative w-full max-w-md rounded-3xl border border-[#E5DDD0] bg-white p-7 shadow-xl">
+            <button
+              type="button"
+              onClick={() => setModalService(null)}
+              aria-label="Cerrar"
+              className="absolute top-4 right-4 rounded-full p-1.5 text-[#6B5B4D] hover:bg-[#F4ECE1] cursor-pointer"
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            {status === 'sent' ? (
+              <div className="py-4 text-center">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+                  <Check className="h-6 w-6" />
+                </div>
+                <h3 className="font-display mt-4 text-3xl font-semibold text-[#1A1714]">
+                  ¡Listo, {name}!
+                </h3>
+                <p className="mt-2 text-sm text-[#6B5B4D]">
+                  En unos segundos recibirás un mensaje personalizado en tu WhatsApp{' '}
+                  <strong>{phone}</strong>.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setModalService(null)}
+                  className="mt-6 rounded-full bg-[#1A1714] px-6 py-2.5 text-xs font-semibold text-white cursor-pointer"
+                >
+                  Cerrar
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmitWebhook} className="space-y-4">
+                <div>
+                  <span className="text-[11px] font-semibold uppercase tracking-widest text-[#C67D4E]">
+                    {modalService === 'catering' ? 'Catering & Barra Móvil' : 'Venta a Mayoreo'}
+                  </span>
+                  <h3 className="font-display mt-1 text-2xl font-semibold text-[#1A1714]">
+                    Recibe tu cotización por WhatsApp
+                  </h3>
+                  <p className="mt-1 text-xs text-[#6B5B4D]">
+                    Déjanos tus datos y nuestro asistente te escribirá al instante por WhatsApp.
+                  </p>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-[#4A3D33]">Tu nombre</label>
+                  <input
+                    type="text"
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Ej. Sofía López"
+                    className="mt-1 w-full rounded-xl border border-[#D8CEC0] px-3.5 py-2 text-sm outline-none focus:border-[#C67D4E]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-[#4A3D33]">
+                    Tu WhatsApp (con lada, ej. +526861234567)
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="+52686..."
+                    className="mt-1 w-full rounded-xl border border-[#D8CEC0] px-3.5 py-2 text-sm outline-none focus:border-[#C67D4E]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-[#4A3D33]">
+                    Detalles (personas, fecha o productos)
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    placeholder={
+                      modalService === 'catering'
+                        ? 'Ej. Evento para 50 personas el próximo sábado'
+                        : 'Ej. Croissants y galletas para cafetería'
+                    }
+                    className="mt-1 w-full rounded-xl border border-[#D8CEC0] px-3.5 py-2 text-sm outline-none focus:border-[#C67D4E]"
+                  />
+                </div>
+
+                {errorMsg && <p className="text-xs text-red-600">{errorMsg}</p>}
+
+                <button
+                  type="submit"
+                  disabled={status === 'sending'}
+                  className="w-full rounded-full bg-[#1A1714] py-3 text-xs font-semibold text-white transition hover:bg-[#C67D4E] cursor-pointer disabled:opacity-60"
+                >
+                  {status === 'sending' ? 'Enviando...' : 'Recibir mensaje en WhatsApp'}
+                </button>
+
+                <div className="text-center">
+                  <a
+                    href={buildWhatsAppUrl(
+                      whatsappNumber,
+                      modalService === 'catering'
+                        ? '¡Hola Moulú! Me interesa cotizar su servicio de Catering / Barra Móvil.'
+                        : '¡Hola Moulú! Me gustaría recibir información sobre Venta a Mayoreo.'
+                    )}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-[11px] text-[#7A6858] underline hover:text-[#1A1714]"
+                  >
+                    O abrir chat directo en WhatsApp
+                  </a>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
     </>
   );
 }

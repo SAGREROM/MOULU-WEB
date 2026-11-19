@@ -1,0 +1,93 @@
+{
+  "name": "Moulú Café — WhatsApp Personalizado (Twilio + ElevenLabs)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "moulu-whatsapp",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "webhook-moulu",
+      "name": "Webhook Moulú Web",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [220, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $input.first().json.body || $input.first().json;\nconst name = body.name || 'amigo(a)';\nconst service = body.service === 'mayoreo' ? 'Venta a Mayoreo' : 'Catering & Barra Móvil';\nconst notes = body.notes ? `\\n📝 Detalles que nos compartiste: ${body.notes}` : '';\nconst rawPhone = String(body.phone || '').replace(/[^\\d+]/g, '');\nconst toPhone = rawPhone.startsWith('+') ? rawPhone : `+${rawPhone}`;\n\nconst message = service === 'Venta a Mayoreo'\n  ? `¡Hola ${name}! ☕🥐 Gracias por contactar a *Moulú Café* en Mexicali.\\n\\nRecibimos tu solicitud de *Venta a Mayoreo* (panadería artesanal, galletas y café de especialidad en grano).${notes}\\n\\nEn un momento te compartimos nuestro catálogo y precios por volumen.`\n  : `¡Hola ${name}! ✨☕ Gracias por contactar a *Moulú Café* en Mexicali.\\n\\nRecibimos tu solicitud de *Catering & Barra Móvil* (Centinela, Salty Latte, Matcha Ceremonial y panadería).${notes}\\n\\n¿Para qué fecha y cuántas personas sería tu evento?`;\n\nreturn [{ json: { name, toPhone, service, message } }];"
+      },
+      "id": "build-message",
+      "name": "Armar Mensaje Personalizado",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.elevenlabs.io/v1/text-to-speech/EXAVITQu4vr4xnSDxMaL",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "xi-api-key",
+              "value": "TU_ELEVENLABS_API_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ text: `Hola ${$json.name}, gracias por escribir a Moulú Café. Recibimos tu solicitud de ${$json.service} y enseguida te atendemos por este medio.`, model_id: 'eleven_multilingual_v2' }) }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "id": "elevenlabs-tts",
+      "name": "ElevenLabs Audio (Opcional)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [700, 180],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "from": "whatsapp:+14155238886",
+        "to": "=whatsapp:{{ $json.toPhone }}",
+        "message": "={{ $json.message }}"
+      },
+      "id": "twilio-whatsapp",
+      "name": "Twilio Enviar WhatsApp",
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 1,
+      "position": [700, 360]
+    }
+  ],
+  "connections": {
+    "Webhook Moulú Web": {
+      "main": [[{ "node": "Armar Mensaje Personalizado", "type": "main", "index": 0 }]]
+    },
+    "Armar Mensaje Personalizado": {
+      "main": [
+        [
+          { "node": "Twilio Enviar WhatsApp", "type": "main", "index": 0 },
+          { "node": "ElevenLabs Audio (Opcional)", "type": "main", "index": 0 }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
