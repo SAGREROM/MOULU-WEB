@@ -33,6 +33,7 @@ interface AdminPanelProps {
 
 type AdminTab =
   | 'general'
+  | 'cuadrantes'
   | 'bebidas'
   | 'brunch'
   | 'comida'
@@ -44,6 +45,7 @@ type AdminTab =
 
 const ADMIN_TABS: { key: AdminTab; label: string }[] = [
   { key: 'general', label: 'General & Contacto' },
+  { key: 'cuadrantes', label: 'Cuadrantes' },
   { key: 'bebidas', label: 'Bebidas' },
   { key: 'brunch', label: 'Brunch' },
   { key: 'comida', label: 'Comida' },
@@ -377,6 +379,87 @@ export function AdminPanel({
                 full
               />
             </div>
+          </div>
+        )}
+
+        {/* Cuadrantes Editor */}
+        {activeTab === 'cuadrantes' && (
+          <div className="space-y-4">
+            <h2 className="font-display text-2xl font-semibold text-[#231B15]">
+              Cuadrantes Principales (2x2)
+            </h2>
+            {(draftData.quadrants || []).map((card, idx) => (
+              <div
+                key={card.id}
+                className="rounded-2xl border border-[#E5DDD0] bg-white p-5 space-y-3"
+              >
+                <p className="text-xs font-semibold uppercase tracking-wider text-[#C67D4E]">
+                  Cuadrante #{idx + 1}
+                </p>
+                <div className="grid gap-3 sm:grid-cols-3">
+                  <Field
+                    label="Título"
+                    value={card.title}
+                    onChange={(v) =>
+                      onUpdateDraft({
+                        ...draftData,
+                        quadrants: (draftData.quadrants || []).map((q) =>
+                          q.id === card.id ? { ...q, title: v } : q
+                        ),
+                      })
+                    }
+                  />
+                  <Field
+                    label="Texto del botón"
+                    value={card.buttonText}
+                    onChange={(v) =>
+                      onUpdateDraft({
+                        ...draftData,
+                        quadrants: (draftData.quadrants || []).map((q) =>
+                          q.id === card.id ? { ...q, buttonText: v } : q
+                        ),
+                      })
+                    }
+                  />
+                  <Field
+                    label="Destino (#menu:bebidas, #menu:brunch, #catering...)"
+                    value={card.target}
+                    onChange={(v) =>
+                      onUpdateDraft({
+                        ...draftData,
+                        quadrants: (draftData.quadrants || []).map((q) =>
+                          q.id === card.id ? { ...q, target: v } : q
+                        ),
+                      })
+                    }
+                  />
+                </div>
+                <TextAreaField
+                  label="Descripción"
+                  value={card.description}
+                  onChange={(v) =>
+                    onUpdateDraft({
+                      ...draftData,
+                      quadrants: (draftData.quadrants || []).map((q) =>
+                        q.id === card.id ? { ...q, description: v } : q
+                      ),
+                    })
+                  }
+                />
+                <Field
+                  label="URL de la foto"
+                  value={card.image}
+                  onChange={(v) =>
+                    onUpdateDraft({
+                      ...draftData,
+                      quadrants: (draftData.quadrants || []).map((q) =>
+                        q.id === card.id ? { ...q, image: v } : q
+                      ),
+                    })
+                  }
+                />
+              </div>
+            ))}
           </div>
         )}
 

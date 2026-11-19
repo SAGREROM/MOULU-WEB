@@ -4,6 +4,8 @@ import type { MenuItem, MenuSectionKey } from '../types/site';
 
 interface MenuSectionProps {
   menu: Record<MenuSectionKey, MenuItem[]>;
+  activeTab?: MenuSectionKey;
+  onTabChange?: (tab: MenuSectionKey) => void;
 }
 
 const TABS: { key: MenuSectionKey; label: string; subtitle: string; icon: typeof Coffee }[] = [
@@ -33,8 +35,17 @@ const TABS: { key: MenuSectionKey; label: string; subtitle: string; icon: typeof
   },
 ];
 
-export function MenuSection({ menu }: MenuSectionProps) {
-  const [activeTab, setActiveTab] = useState<MenuSectionKey>('bebidas');
+export function MenuSection({
+  menu,
+  activeTab: controlledTab,
+  onTabChange,
+}: MenuSectionProps) {
+  const [internalTab, setInternalTab] = useState<MenuSectionKey>('bebidas');
+  const activeTab = controlledTab ?? internalTab;
+  const setActiveTab = (tab: MenuSectionKey) => {
+    setInternalTab(tab);
+    onTabChange?.(tab);
+  };
   const currentItems = menu[activeTab] || [];
   const currentTabInfo = TABS.find((t) => t.key === activeTab)!;
 

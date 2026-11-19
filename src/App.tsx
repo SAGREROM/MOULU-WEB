@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { ArrowDownRight, Instagram, MapPin, PawPrint } from 'lucide-react';
 import { Navbar } from './components/Navbar';
+import { QuadrantsSection } from './components/QuadrantsSection';
 import { MenuSection } from './components/MenuSection';
 import { ServicesSections } from './components/ServicesSections';
 import { NewsAndFooter } from './components/NewsAndFooter';
 import { AdminPanel } from './components/AdminPanel';
-import type { SiteData } from './types/site';
+import type { MenuSectionKey, SiteData } from './types/site';
 import {
   clearDraftSiteData,
   fetchPublishedSiteData,
@@ -19,6 +20,7 @@ export function App() {
   const [viewMode, setViewMode] = useState<'client' | 'preview' | 'admin'>(() =>
     window.location.hash === '#admin' ? 'admin' : 'client'
   );
+  const [menuTab, setMenuTab] = useState<MenuSectionKey>('bebidas');
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -102,6 +104,19 @@ export function App() {
   const { brand } = activeData;
   const marqueeChunk = brand.marqueeText || 'Café de Especialidad · Brunch · Panadería · Catering · Mayoreo ·';
 
+  const handleQuadrantNavigate = (target: string) => {
+    if (target.startsWith('#menu:')) {
+      const tab = target.replace('#menu:', '') as MenuSectionKey;
+      if (['bebidas', 'brunch', 'comida', 'panaderia'].includes(tab)) {
+        setMenuTab(tab);
+      }
+      document.getElementById('menu')?.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+    const id = target.replace(/^#/, '');
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div className="min-h-screen bg-[#F9F6F1] text-[#1A1714]">
       <Navbar
@@ -180,6 +195,12 @@ export function App() {
         </div>
       </div>
 
+      {/* 2x2 Split Quadrants (nuvo-cafe style) */}
+      <QuadrantsSection
+        quadrants={activeData.quadrants || []}
+        onNavigateTarget={handleQuadrantNavigate}
+      />
+
       {/* Editorial Story Strip */}
       <section className="mx-auto max-w-6xl px-4 pt-16 sm:px-6">
         <div className="grid gap-6 rounded-3xl border border-[#E5DDD0] bg-white p-8 sm:p-10 md:grid-cols-12 md:items-center">
@@ -215,7 +236,11 @@ export function App() {
         </div>
       </section>
 
-      <MenuSection menu={activeData.menu} />
+      <MenuSection
+        menu={activeData.menu}
+        activeTab={menuTab}
+        onTabChange={setMenuTab}
+      />
 
       <ServicesSections
         catering={activeData.catering}

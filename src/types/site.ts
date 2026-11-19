@@ -34,6 +34,15 @@ export interface NewsItem {
   active: boolean;
 }
 
+export interface QuadrantCard {
+  id: string;
+  title: string;
+  description: string;
+  buttonText: string;
+  target: string;
+  image: string;
+}
+
 export interface BrandConfig {
   name: string;
   tagline: string;
@@ -79,6 +88,7 @@ export interface SiteData {
   version: number;
   updatedAt: string;
   brand: BrandConfig;
+  quadrants?: QuadrantCard[];
   menu: Record<MenuSectionKey, MenuItem[]>;
   catering: CateringConfig;
   mayoreo: WholesaleConfig;
