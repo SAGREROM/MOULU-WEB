@@ -11,11 +11,13 @@ import {
   Trash2,
 } from 'lucide-react';
 import type {
+  GalleryPhoto,
   MenuItem,
   MenuSectionKey,
   NewsItem,
   SiteData,
 } from '../types/site';
+import { ImageUploaderField } from './ImageUploaderField';
 import {
   downloadSiteDataJson,
   loadGitHubConfig,
@@ -367,17 +369,122 @@ export function AdminPanel({
                 full
               />
               <Field
-                label="Imagen principal (URL de foto Hero)"
-                value={draftData.brand.heroImage || ''}
-                onChange={(v) => updateBrand('heroImage', v)}
-                full
-              />
-              <Field
                 label="Texto de la cinta en movimiento (Marquee)"
                 value={draftData.brand.marqueeText || ''}
                 onChange={(v) => updateBrand('marqueeText', v)}
                 full
               />
+            </div>
+
+            <ImageUploaderField
+              label="Foto principal (Hero)"
+              imageUrl={draftData.brand.heroImage || ''}
+              position={draftData.brand.heroPosition}
+              zoom={draftData.brand.heroZoom}
+              aspectClass="h-44"
+              onChange={({ imageUrl, position, zoom }) =>
+                onUpdateDraft({
+                  ...draftData,
+                  brand: {
+                    ...draftData.brand,
+                    heroImage: imageUrl,
+                    heroPosition: position,
+                    heroZoom: zoom,
+                  },
+                })
+              }
+            />
+
+            <div className="space-y-3 border-t border-[#EFE7DA] pt-5">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-semibold text-[#231B15]">
+                  Galería &ldquo;Sigue tu antojo&rdquo;
+                </h3>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const current: GalleryPhoto[] =
+                      draftData.brand.galleryPhotos && draftData.brand.galleryPhotos.length > 0
+                        ? draftData.brand.galleryPhotos
+                        : (draftData.brand.galleryImages || []).map((url, idx) => ({
+                            id: `gal-${idx}`,
+                            url,
+                            position: '50% 50%',
+                            zoom: 1,
+                          }));
+                    onUpdateDraft({
+                      ...draftData,
+                      brand: {
+                        ...draftData.brand,
+                        galleryPhotos: [
+                          ...current,
+                          {
+                            id: `gal-${Date.now()}`,
+                            url: '',
+                            position: '50% 50%',
+                            zoom: 1,
+                          },
+                        ],
+                      },
+                    });
+                  }}
+                  className="inline-flex items-center gap-1 rounded-full bg-[#231B15] px-3 py-1.5 text-xs text-white cursor-pointer"
+                >
+                  <Plus className="h-3 w-3" /> Agregar foto
+                </button>
+              </div>
+
+              <div className="grid gap-3 md:grid-cols-2">
+                {(draftData.brand.galleryPhotos && draftData.brand.galleryPhotos.length > 0
+                  ? draftData.brand.galleryPhotos
+                  : (draftData.brand.galleryImages || []).map((url, idx) => ({
+                      id: `gal-${idx}`,
+                      url,
+                      position: '50% 50%',
+                      zoom: 1,
+                    }))
+                ).map((photo, idx, arr) => (
+                  <div key={photo.id} className="space-y-2">
+                    <ImageUploaderField
+                      label={`Foto galería #${idx + 1}`}
+                      imageUrl={photo.url}
+                      position={photo.position}
+                      zoom={photo.zoom}
+                      aspectClass="h-36"
+                      onChange={({ imageUrl, position, zoom }) => {
+                        const updated = arr.map((p) =>
+                          p.id === photo.id ? { ...p, url: imageUrl, position, zoom } : p
+                        );
+                        onUpdateDraft({
+                          ...draftData,
+                          brand: {
+                            ...draftData.brand,
+                            galleryPhotos: updated,
+                            galleryImages: updated.map((p) => p.url).filter(Boolean),
+                          },
+                        });
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const updated = arr.filter((p) => p.id !== photo.id);
+                        onUpdateDraft({
+                          ...draftData,
+                          brand: {
+                            ...draftData.brand,
+                            galleryPhotos: updated,
+                            galleryImages: updated.map((p) => p.url).filter(Boolean),
+                          },
+                        });
+                      }}
+                      className="inline-flex items-center gap-1 text-xs text-red-600 hover:underline cursor-pointer"
+                    >
+                      <Trash2 className="h-3 w-3" /> Eliminar foto #{idx + 1}
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}
@@ -446,14 +553,19 @@ export function AdminPanel({
                     })
                   }
                 />
-                <Field
-                  label="URL de la foto"
-                  value={card.image}
-                  onChange={(v) =>
+                <ImageUploaderField
+                  label="Foto del cuadrante (subir o pegar URL + encuadre)"
+                  imageUrl={card.image}
+                  position={card.imagePosition}
+                  zoom={card.imageZoom}
+                  aspectClass="h-40"
+                  onChange={({ imageUrl, position, zoom }) =>
                     onUpdateDraft({
                       ...draftData,
                       quadrants: (draftData.quadrants || []).map((q) =>
-                        q.id === card.id ? { ...q, image: v } : q
+                        q.id === card.id
+                          ? { ...q, image: imageUrl, imagePosition: position, imageZoom: zoom }
+                          : q
                       ),
                     })
                   }
@@ -511,6 +623,20 @@ export function AdminPanel({
                   label="Descripción"
                   value={item.description}
                   onChange={(v) => updateMenuItem(activeTab, item.id, { description: v })}
+                />
+                <ImageUploaderField
+                  label="Foto del platillo / bebida (opcional)"
+                  imageUrl={item.image || ''}
+                  position={item.imagePosition}
+                  zoom={item.imageZoom}
+                  aspectClass="h-32"
+                  onChange={({ imageUrl, position, zoom }) =>
+                    updateMenuItem(activeTab, item.id, {
+                      image: imageUrl,
+                      imagePosition: position,
+                      imageZoom: zoom,
+                    })
+                  }
                 />
                 <div className="flex items-center justify-between pt-1">
                   <label className="inline-flex items-center gap-2 text-xs font-medium text-[#4A3D33] cursor-pointer">
@@ -585,18 +711,28 @@ export function AdminPanel({
                     catering: { ...draftData.catering, ctaText: v },
                   })
                 }
-              />
-              <Field
-                label="Imagen de Catering (URL)"
-                value={draftData.catering.image || ''}
-                onChange={(v) =>
-                  onUpdateDraft({
-                    ...draftData,
-                    catering: { ...draftData.catering, image: v },
-                  })
-                }
+                full
               />
             </div>
+
+            <ImageUploaderField
+              label="Foto de Catering (subir o pegar URL + encuadre)"
+              imageUrl={draftData.catering.image || ''}
+              position={draftData.catering.imagePosition}
+              zoom={draftData.catering.imageZoom}
+              aspectClass="h-44"
+              onChange={({ imageUrl, position, zoom }) =>
+                onUpdateDraft({
+                  ...draftData,
+                  catering: {
+                    ...draftData.catering,
+                    image: imageUrl,
+                    imagePosition: position,
+                    imageZoom: zoom,
+                  },
+                })
+              }
+            />
 
             <div className="space-y-3">
               <div className="flex items-center justify-between">
@@ -746,18 +882,28 @@ export function AdminPanel({
                     mayoreo: { ...draftData.mayoreo, ctaText: v },
                   })
                 }
-              />
-              <Field
-                label="Imagen de Mayoreo (URL)"
-                value={draftData.mayoreo.image || ''}
-                onChange={(v) =>
-                  onUpdateDraft({
-                    ...draftData,
-                    mayoreo: { ...draftData.mayoreo, image: v },
-                  })
-                }
+                full
               />
             </div>
+
+            <ImageUploaderField
+              label="Foto de Mayoreo (subir o pegar URL + encuadre)"
+              imageUrl={draftData.mayoreo.image || ''}
+              position={draftData.mayoreo.imagePosition}
+              zoom={draftData.mayoreo.imageZoom}
+              aspectClass="h-44"
+              onChange={({ imageUrl, position, zoom }) =>
+                onUpdateDraft({
+                  ...draftData,
+                  mayoreo: {
+                    ...draftData.mayoreo,
+                    image: imageUrl,
+                    imagePosition: position,
+                    imageZoom: zoom,
+                  },
+                })
+              }
+            />
 
             <div className="space-y-3">
               <h3 className="text-sm font-semibold text-[#231B15]">

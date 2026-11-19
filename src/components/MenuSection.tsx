@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Coffee, Croissant, EggFried, UtensilsCrossed } from 'lucide-react';
 import type { MenuItem, MenuSectionKey } from '../types/site';
+import { Reveal } from './Reveal';
 
 interface MenuSectionProps {
   menu: Record<MenuSectionKey, MenuItem[]>;
@@ -108,44 +109,66 @@ export function MenuSection({
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
-              {items.map((item) => (
-                <article
-                  key={item.id}
-                  className={`flex flex-col justify-between rounded-2xl border p-5 transition ${
-                    item.available
-                      ? 'border-[#E7DFD3] bg-white/80 hover:border-[#C67D4E]/50 hover:shadow-sm'
-                      : 'border-[#E7DFD3]/70 bg-[#F3ECE1]/60 opacity-65'
-                  }`}
-                >
-                  <div>
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <h4 className="text-base font-semibold text-[#231B15]">
-                          {item.name}
-                        </h4>
-                        {item.tag && (
-                          <span className="rounded-full bg-[#C67D4E]/15 px-2.5 py-0.5 text-[11px] font-semibold text-[#9E592E]">
-                            {item.tag}
-                          </span>
-                        )}
-                        {!item.available && (
-                          <span className="rounded-full bg-[#231B15]/10 px-2.5 py-0.5 text-[11px] font-medium text-[#5C4D40]">
-                            Agotado hoy
-                          </span>
-                        )}
+              {items.map((item, idx) => {
+                const pos = item.imagePosition || '50% 50%';
+                const zoom = item.imageZoom ?? 1;
+                return (
+                  <Reveal key={item.id} delayMs={Math.min(idx * 45, 220)}>
+                    <article
+                      className={`group flex h-full items-stretch gap-4 overflow-hidden rounded-2xl border p-4 transition duration-300 ${
+                        item.available
+                          ? 'border-[#E7DFD3] bg-white/85 hover:-translate-y-0.5 hover:border-[#C67D4E]/60 hover:shadow-md'
+                          : 'border-[#E7DFD3]/70 bg-[#F3ECE1]/60 opacity-65'
+                      }`}
+                    >
+                      {item.image && (
+                        <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-[#F2ECE2]">
+                          <img
+                            src={item.image}
+                            alt={item.name}
+                            className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                            style={{
+                              objectPosition: pos,
+                              transform: `scale(${zoom})`,
+                              transformOrigin: pos,
+                            }}
+                          />
+                        </div>
+                      )}
+
+                      <div className="flex flex-1 flex-col justify-between">
+                        <div>
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <h4 className="text-base font-semibold text-[#231B15]">
+                                {item.name}
+                              </h4>
+                              {item.tag && (
+                                <span className="rounded-full bg-[#C67D4E]/15 px-2.5 py-0.5 text-[11px] font-semibold text-[#9E592E]">
+                                  {item.tag}
+                                </span>
+                              )}
+                              {!item.available && (
+                                <span className="rounded-full bg-[#231B15]/10 px-2.5 py-0.5 text-[11px] font-medium text-[#5C4D40]">
+                                  Agotado hoy
+                                </span>
+                              )}
+                            </div>
+                            <span className="shrink-0 text-base font-semibold text-[#231B15]">
+                              {item.price}
+                            </span>
+                          </div>
+                          {item.description && (
+                            <p className="mt-1.5 text-sm leading-relaxed text-[#6B5B4D]">
+                              {item.description}
+                            </p>
+                          )}
+                        </div>
                       </div>
-                      <span className="shrink-0 text-base font-semibold text-[#231B15]">
-                        {item.price}
-                      </span>
-                    </div>
-                    {item.description && (
-                      <p className="mt-2 text-sm leading-relaxed text-[#6B5B4D]">
-                        {item.description}
-                      </p>
-                    )}
-                  </div>
-                </article>
-              ))}
+                    </article>
+                  </Reveal>
+                );
+              })}
             </div>
           </div>
         ))}

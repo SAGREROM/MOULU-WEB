@@ -22,7 +22,11 @@
       "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=800&q=80"
+      "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=800&q=80"
     ],
     "adminPin": "1234"
   },
@@ -69,7 +73,8 @@
         "price": "$85",
         "description": "Nuestra bebida estrella: refrescante limonada artesanal coronada con un shot de espresso de especialidad.",
         "tag": "Favorito",
-        "available": true
+        "available": true,
+        "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=600&q=80"
       },
       {
         "id": "beb-2",
@@ -78,7 +83,8 @@
         "price": "$88",
         "description": "Latte caliente o en las rocas con leche de soya, un toque sutil de sal rosa del Himalaya y miel de abeja.",
         "tag": "Favorito",
-        "available": true
+        "available": true,
+        "image": "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=600&q=80"
       },
       {
         "id": "beb-3",
@@ -96,7 +102,8 @@
         "price": "$92",
         "description": "Té matcha japonés ceremonial batido al momento. Disponible en versión Latte, Matcha Coco o Matcha Limonada.",
         "tag": "Ceremonial",
-        "available": true
+        "available": true,
+        "image": "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=600&q=80"
       },
       {
         "id": "beb-5",
@@ -152,7 +159,8 @@
         "price": "$145",
         "description": "Pan masa madre tostado con aguacate machacado, huevo pochado, ajonjolí tostado y hojuelas de chile.",
         "tag": "",
-        "available": true
+        "available": true,
+        "image": "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80"
       },
       {
         "id": "bru-3",
@@ -210,7 +218,8 @@
         "price": "$55",
         "description": "Suave por dentro, dorada por fuera, con trozos de chocolate semiamargo y flor de sal.",
         "tag": "Favorito",
-        "available": true
+        "available": true,
+        "image": "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=600&q=80"
       },
       {
         "id": "pan-2",
@@ -219,7 +228,8 @@
         "price": "$60",
         "description": "Hojaldre crujiente de fermentación lenta elaborado con mantequilla francesa.",
         "tag": "Recién horneado",
-        "available": true
+        "available": true,
+        "image": "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80"
       },
       {
         "id": "pan-3",

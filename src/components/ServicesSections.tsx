@@ -1,5 +1,6 @@
 import { ArrowUpRight, CheckCircle2, MessageCircle, Package, Sparkles } from 'lucide-react';
 import type { CateringConfig, WholesaleConfig } from '../types/site';
+import { Reveal } from './Reveal';
 
 interface ServicesSectionsProps {
   catering: CateringConfig;
@@ -23,11 +24,16 @@ export function ServicesSections({
       <section id="mayoreo" className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
         <div className="overflow-hidden rounded-3xl bg-[#1A1714] text-[#F9F6F1]">
           <div className="grid lg:grid-cols-12">
-            <div className="relative min-h-[300px] lg:col-span-5">
+            <div className="relative min-h-[300px] overflow-hidden lg:col-span-5">
               <img
                 src={mayoreo.image}
                 alt={mayoreo.title}
                 className="h-full w-full object-cover"
+                style={{
+                  objectPosition: mayoreo.imagePosition || '50% 50%',
+                  transform: `scale(${mayoreo.imageZoom ?? 1})`,
+                  transformOrigin: mayoreo.imagePosition || '50% 50%',
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#1A1714]/60 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-[#1A1714]/40" />
             </div>
@@ -136,11 +142,18 @@ export function ServicesSections({
 
             <div className="lg:col-span-6">
               <div className="overflow-hidden rounded-3xl border border-[#DFD4C3] bg-white shadow-xs">
-                <img
-                  src={catering.image}
-                  alt={catering.title}
-                  className="h-60 w-full object-cover"
-                />
+                <div className="h-60 w-full overflow-hidden">
+                  <img
+                    src={catering.image}
+                    alt={catering.title}
+                    className="h-full w-full object-cover"
+                    style={{
+                      objectPosition: catering.imagePosition || '50% 50%',
+                      transform: `scale(${catering.imageZoom ?? 1})`,
+                      transformOrigin: catering.imagePosition || '50% 50%',
+                    }}
+                  />
+                </div>
                 <div className="divide-y divide-[#EFE7DA] p-6">
                   {catering.packages.map((pkg) => (
                     <div key={pkg.id} className="py-4 first:pt-0 last:pb-0">

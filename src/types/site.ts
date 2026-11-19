@@ -8,6 +8,9 @@ export interface MenuItem {
   description: string;
   tag?: string;
   available: boolean;
+  image?: string;
+  imagePosition?: string;
+  imageZoom?: number;
 }
 
 export interface CateringPackage {
@@ -41,6 +44,15 @@ export interface QuadrantCard {
   buttonText: string;
   target: string;
   image: string;
+  imagePosition?: string;
+  imageZoom?: number;
+}
+
+export interface GalleryPhoto {
+  id: string;
+  url: string;
+  position?: string;
+  zoom?: number;
 }
 
 export interface BrandConfig {
@@ -50,6 +62,8 @@ export interface BrandConfig {
   heroTitle: string;
   heroSubtitle: string;
   heroImage: string;
+  heroPosition?: string;
+  heroZoom?: number;
   marqueeText: string;
   storyTitle: string;
   storyText: string;
@@ -61,6 +75,7 @@ export interface BrandConfig {
   whatsappNumber: string;
   petFriendlyNote: string;
   galleryImages: string[];
+  galleryPhotos?: GalleryPhoto[];
   adminPin: string;
 }
 
@@ -69,6 +84,8 @@ export interface CateringConfig {
   subtitle: string;
   description: string;
   image: string;
+  imagePosition?: string;
+  imageZoom?: number;
   highlights: string[];
   packages: CateringPackage[];
   ctaText: string;
@@ -79,6 +96,8 @@ export interface WholesaleConfig {
   subtitle: string;
   description: string;
   image: string;
+  imagePosition?: string;
+  imageZoom?: number;
   benefits: string[];
   products: WholesaleProduct[];
   ctaText: string;

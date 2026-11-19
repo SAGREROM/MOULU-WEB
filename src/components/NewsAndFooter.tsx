@@ -1,5 +1,7 @@
-import { Calendar, Clock, Instagram, MapPin, PawPrint } from 'lucide-react';
-import type { BrandConfig, NewsItem } from '../types/site';
+import { useState } from 'react';
+import { Calendar, Clock, Instagram, MapPin, PawPrint, X } from 'lucide-react';
+import type { BrandConfig, GalleryPhoto, NewsItem } from '../types/site';
+import { Reveal } from './Reveal';
 
 interface NewsAndFooterProps {
   novedades: NewsItem[];
@@ -13,8 +15,17 @@ export function NewsAndFooter({
   brand,
   updatedAt,
 }: NewsAndFooterProps) {
+  const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
   const activeNews = novedades.filter((n) => n.active);
-  const gallery = brand.galleryImages || [];
+  const gallery: GalleryPhoto[] =
+    brand.galleryPhotos && brand.galleryPhotos.length > 0
+      ? brand.galleryPhotos
+      : (brand.galleryImages || []).map((url, idx) => ({
+          id: `gal-${idx}`,
+          url,
+          position: '50% 50%',
+          zoom: 1,
+        }));
 
   return (
     <>
@@ -101,24 +112,50 @@ export function NewsAndFooter({
             </div>
 
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
-              {gallery.map((imgUrl, idx) => (
-                <a
-                  key={idx}
-                  href={brand.instagramUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="group relative aspect-square overflow-hidden rounded-2xl bg-[#F2ECE2]"
-                >
-                  <img
-                    src={imgUrl}
-                    alt={`Moulú Café galería ${idx + 1}`}
-                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                  />
-                </a>
+              {gallery.map((photo, idx) => (
+                <Reveal key={photo.id} delayMs={Math.min(idx * 50, 200)}>
+                  <button
+                    type="button"
+                    onClick={() => setLightboxUrl(photo.url)}
+                    className="group relative aspect-square w-full overflow-hidden rounded-2xl bg-[#F2ECE2] cursor-pointer"
+                  >
+                    <img
+                      src={photo.url}
+                      alt={`Moulú Café galería ${idx + 1}`}
+                      className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      style={{
+                        objectPosition: photo.position || '50% 50%',
+                        transform: `scale(${photo.zoom ?? 1})`,
+                        transformOrigin: photo.position || '50% 50%',
+                      }}
+                    />
+                  </button>
+                </Reveal>
               ))}
             </div>
           </div>
         </section>
+      )}
+
+      {lightboxUrl && (
+        <div
+          onClick={() => setLightboxUrl(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-xs"
+        >
+          <button
+            type="button"
+            onClick={() => setLightboxUrl(null)}
+            aria-label="Cerrar imagen"
+            className="absolute top-4 right-4 rounded-full bg-white/15 p-2 text-white hover:bg-white/25 cursor-pointer"
+          >
+            <X className="h-6 w-6" />
+          </button>
+          <img
+            src={lightboxUrl}
+            alt="Vista ampliada"
+            className="max-h-[85vh] max-w-full rounded-2xl object-contain shadow-2xl"
+          />
+        </div>
       )}
 
       {/* Visitanos & Footer */}

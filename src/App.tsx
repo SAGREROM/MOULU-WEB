@@ -131,11 +131,16 @@ export function App() {
         <img
           src={brand.heroImage}
           alt={brand.name}
-          className="absolute inset-0 h-full w-full object-cover opacity-65"
+          className="absolute inset-0 h-full w-full object-cover opacity-65 transition-transform duration-700"
+          style={{
+            objectPosition: brand.heroPosition || '50% 50%',
+            transform: `scale(${brand.heroZoom ?? 1})`,
+            transformOrigin: brand.heroPosition || '50% 50%',
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#1A1714]/85 via-[#1A1714]/35 to-[#1A1714]/30" />
 
-        <div className="relative mx-auto flex min-h-[78vh] max-w-6xl flex-col justify-end px-4 py-16 sm:px-6 sm:py-20">
+        <div className="animate-fade-up relative mx-auto flex min-h-[78vh] max-w-6xl flex-col justify-end px-4 py-16 sm:px-6 sm:py-20">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-xs font-medium text-white backdrop-blur-sm">
               <PawPrint className="h-3.5 w-3.5 text-[#E8B48A]" />

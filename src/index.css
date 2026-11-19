@@ -35,3 +35,18 @@
 .animate-marquee:hover {
   animation-play-state: paused;
 }
+
+@keyframes fadeUpIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fadeUpIn 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
