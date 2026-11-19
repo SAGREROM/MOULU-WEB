@@ -1,4 +1,4 @@
-import { Calendar, Clock, Instagram, MapPin, PawPrint, Lock } from 'lucide-react';
+import { Calendar, Clock, Instagram, MapPin, PawPrint } from 'lucide-react';
 import type { BrandConfig, NewsItem } from '../types/site';
 
 interface NewsAndFooterProps {
@@ -12,7 +12,6 @@ export function NewsAndFooter({
   novedades,
   brand,
   updatedAt,
-  onOpenAdmin,
 }: NewsAndFooterProps) {
   const activeNews = novedades.filter((n) => n.active);
   const gallery = brand.galleryImages || [];
@@ -164,14 +163,6 @@ export function NewsAndFooter({
 
               <div className="flex items-center gap-4 text-xs text-[#A89A8B]">
                 <span>Actualizado: {updatedAt}</span>
-                <button
-                  type="button"
-                  onClick={onOpenAdmin}
-                  className="inline-flex items-center gap-1 underline-offset-4 hover:text-white hover:underline cursor-pointer"
-                >
-                  <Lock className="h-3 w-3" />
-                  Administrar sitio
-                </button>
               </div>
             </div>
           </div>

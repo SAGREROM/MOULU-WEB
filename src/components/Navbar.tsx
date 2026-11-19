@@ -1,4 +1,4 @@
-import { Coffee, Menu, X, Lock } from 'lucide-react';
+import { Coffee, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 
 interface NavbarProps {
@@ -73,15 +73,6 @@ export function Navbar({
               {link.label}
             </a>
           ))}
-          <button
-            type="button"
-            onClick={onOpenAdmin}
-            title="Panel de edición para el dueño"
-            className="inline-flex items-center gap-1.5 rounded-full border border-[#D8CEC0] px-3.5 py-1.5 text-xs font-medium text-[#5C4D40] transition hover:border-[#231B15] hover:text-[#231B15] cursor-pointer"
-          >
-            <Lock className="h-3.5 w-3.5" />
-            Editar
-          </button>
         </nav>
 
         <button
@@ -107,17 +98,6 @@ export function Navbar({
                 {link.label}
               </a>
             ))}
-            <button
-              type="button"
-              onClick={() => {
-                setMobileOpen(false);
-                onOpenAdmin();
-              }}
-              className="mt-1 inline-flex items-center justify-center gap-1.5 rounded-full border border-[#D8CEC0] px-4 py-2 text-xs font-medium text-[#5C4D40] cursor-pointer"
-            >
-              <Lock className="h-3.5 w-3.5" />
-              Modo Editor
-            </button>
           </div>
         </div>
       )}
