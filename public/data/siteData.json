@@ -28,7 +28,8 @@
       "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=800&q=80"
     ],
-    "adminPin": "1234"
+    "adminPin": "1234",
+    "n8nWebhookUrl": "https://hook.us2.make.com/49l7j8u47i5668nzvthfsq4ijblvcwg4"
   },
   "quadrants": [
     {
@@ -349,7 +350,7 @@
     }
   ],
   "reviewReward": {
-    "enabled": false,
+    "enabled": true,
     "title": "",
     "subtitle": "",
     "rewardText": "",
