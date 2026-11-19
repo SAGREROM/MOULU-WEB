@@ -1,0 +1,295 @@
+{
+  "version": 1,
+  "updatedAt": "2026-11-18",
+  "brand": {
+    "name": "Moulú Café",
+    "tagline": "Café de especialidad, brunch & panadería artesanal",
+    "heroBadge": "Mexicali, B.C. • Pet Friendly",
+    "heroTitle": "Tu pausa favorita entre café de especialidad y pan recién horneado.",
+    "heroSubtitle": "En el corazón de Compuertas preparamos barras de autor, matcha ceremonial grado A, brunch al momento y panadería artesanal todos los días.",
+    "storyTitle": "Hecho con calma, grano selecto y manos cachanillas.",
+    "storyText": "Moulú nació para ser ese rincón luminoso en Mexicali donde el espresso de especialidad convive con un buen brunch, pan dulce tibio y espacio para venir con tu mascota.",
+    "address": "Av. República de Brasil #866, Col. Compuertas, C.P. 21218",
+    "city": "Mexicali, Baja California",
+    "hours": "Lun a Sáb 7:30 am – 8:00 pm • Dom 8:30 am – 3:00 pm",
+    "instagramHandle": "@moulu_mxli",
+    "instagramUrl": "https://www.instagram.com/moulu_mxli/",
+    "whatsappNumber": "526860000000",
+    "petFriendlyNote": "Espacio 100% Pet Friendly — ¡pregunta por nuestros snacks especiales para tu lomito!",
+    "adminPin": "1234"
+  },
+  "menu": {
+    "bebidas": [
+      {
+        "id": "beb-1",
+        "name": "Centinela",
+        "category": "Bebidas de la Casa",
+        "price": "$85",
+        "description": "Nuestra bebida estrella: refrescante limonada artesanal coronada con un shot de espresso de especialidad.",
+        "tag": "Favorito",
+        "available": true
+      },
+      {
+        "id": "beb-2",
+        "name": "Salty Latte",
+        "category": "Bebidas de la Casa",
+        "price": "$88",
+        "description": "Latte caliente o en las rocas con leche de soya, un toque sutil de sal rosa del Himalaya y miel de abeja.",
+        "tag": "Favorito",
+        "available": true
+      },
+      {
+        "id": "beb-3",
+        "name": "Jazz Blues",
+        "category": "Bebidas de la Casa",
+        "price": "$85",
+        "description": "Infusión fría de té de jazmín con menta fresca, agua tónica, blueberries y miel de agave.",
+        "tag": "Refrescante",
+        "available": true
+      },
+      {
+        "id": "beb-4",
+        "name": "Matcha Ceremonial Grado A",
+        "category": "Matcha & Té",
+        "price": "$92",
+        "description": "Té matcha japonés ceremonial batido al momento. Disponible en versión Latte, Matcha Coco o Matcha Limonada.",
+        "tag": "Ceremonial",
+        "available": true
+      },
+      {
+        "id": "beb-5",
+        "name": "Cinnamon Honey Latte",
+        "category": "Barra de Espresso",
+        "price": "$85",
+        "description": "Doble shot de espresso, leche vaporizada (entera, soya, almendra o avena), miel de abeja y canela.",
+        "tag": "",
+        "available": true
+      },
+      {
+        "id": "beb-6",
+        "name": "Espresso Tónico",
+        "category": "Barra de Espresso",
+        "price": "$78",
+        "description": "Agua tónica bien fría con doble espresso y twist cítrico.",
+        "tag": "",
+        "available": true
+      },
+      {
+        "id": "beb-7",
+        "name": "Dirty Chai",
+        "category": "Matcha & Té",
+        "price": "$90",
+        "description": "Té chai especiado tradicional con leche cremosa y un shot extra de espresso.",
+        "tag": "",
+        "available": true
+      },
+      {
+        "id": "beb-8",
+        "name": "Golden Milk",
+        "category": "Matcha & Té",
+        "price": "$80",
+        "description": "Bebida reconfortante a base de leche de tu elección, cúrcuma orgánica, jengibre y especias.",
+        "tag": "Sin cafeína",
+        "available": true
+      }
+    ],
+    "brunch": [
+      {
+        "id": "bru-1",
+        "name": "Chilaquiles Moulú",
+        "category": "Clásicos de Brunch",
+        "price": "$155",
+        "description": "Totopos crujientes bañados en salsa verde o roja de la casa, crema, queso fresco, cebolla morada y huevo al gusto.",
+        "tag": "Favorito",
+        "available": true
+      },
+      {
+        "id": "bru-2",
+        "name": "Avocado Toast Artesanal",
+        "category": "Tostadas & Bowls",
+        "price": "$145",
+        "description": "Pan masa madre tostado con aguacate machacado, huevo pochado, ajonjolí tostado y hojuelas de chile.",
+        "tag": "",
+        "available": true
+      },
+      {
+        "id": "bru-3",
+        "name": "Croissant Egg & Bacon",
+        "category": "Sándwiches de Desayuno",
+        "price": "$140",
+        "description": "Croissant de mantequilla horneado en casa relleno de huevo cremoso, tocino crujiente y queso cheddar.",
+        "tag": "Nuevo",
+        "available": true
+      },
+      {
+        "id": "bru-4",
+        "name": "French Toast de Brioche",
+        "category": "Dulce",
+        "price": "$150",
+        "description": "Pan brioche grueso sellado en mantequilla con compota de frutos rojos, crema batida y miel de maple.",
+        "tag": "",
+        "available": true
+      }
+    ],
+    "comida": [
+      {
+        "id": "com-1",
+        "name": "Sándwich Caprese al Pesto",
+        "category": "Sándwiches Artesanales",
+        "price": "$160",
+        "description": "Ciabatta artesanal con pesto de albahaca fresca, mozzarella, tomate deshidratado y reducción balsámica.",
+        "tag": "Favorito",
+        "available": true
+      },
+      {
+        "id": "com-2",
+        "name": "Panini de Pavo & Queso Brie",
+        "category": "Sándwiches Artesanales",
+        "price": "$170",
+        "description": "Pechuga de pavo horneada, queso brie fundido, arúgula y mermelada de higo en pan masa madre.",
+        "tag": "",
+        "available": true
+      },
+      {
+        "id": "com-3",
+        "name": "Ensalada Mediterránea Moulú",
+        "category": "Frescos",
+        "price": "$155",
+        "description": "Mix de lechugas orgánicas, queso feta, aceitunas kalamata, pepino, tomate cherry y vinagreta de limón.",
+        "tag": "Ligero",
+        "available": true
+      }
+    ],
+    "panaderia": [
+      {
+        "id": "pan-1",
+        "name": "Galleta Chunk de Chocolate & Sal",
+        "category": "Galletas",
+        "price": "$55",
+        "description": "Suave por dentro, dorada por fuera, con trozos de chocolate semiamargo y flor de sal.",
+        "tag": "Favorito",
+        "available": true
+      },
+      {
+        "id": "pan-2",
+        "name": "Croissant de Mantequilla",
+        "category": "Viennoiserie",
+        "price": "$60",
+        "description": "Hojaldre crujiente de fermentación lenta elaborado con mantequilla francesa.",
+        "tag": "Recién horneado",
+        "available": true
+      },
+      {
+        "id": "pan-3",
+        "name": "Rol de Canela & Cardamomo",
+        "category": "Pan Dulce del Día",
+        "price": "$65",
+        "description": "Masa suave esponjosa con relleno de canela, cardamomo y glaseado ligero de queso crema.",
+        "tag": "",
+        "available": true
+      },
+      {
+        "id": "pan-4",
+        "name": "Panqué de Limón & Amapola",
+        "category": "Repostería",
+        "price": "$58",
+        "description": "Rebanada húmeda con ralladura de limón amarillo y glaseado cítrico.",
+        "tag": "",
+        "available": true
+      }
+    ]
+  },
+  "catering": {
+    "title": "Catering & Barra Móvil",
+    "subtitle": "Lleva la experiencia Moulú a tu evento",
+    "description": "Bodas, coffee breaks corporativos, cumpleaños, baby showers o inauguraciones en Mexicali. Llevamos nuestra barra de café de especialidad, matcha ceremonial y charolas de panadería y brunch directo a tu evento.",
+    "highlights": [
+      "Barra de espresso y bebidas frías con barista profesional",
+      "Opciones de leche vegetal (soya, almendra y avena) incluidas",
+      "Charolas de mini sándwiches, croissants y galletas recién horneadas",
+      "Montaje estético y vasos personalizados bajo pedido"
+    ],
+    "packages": [
+      {
+        "id": "cat-1",
+        "name": "Coffee Break Esencial",
+        "people": "20 – 30 personas",
+        "price": "Desde $2,800 MXN",
+        "details": "Termos de café de especialidad, té chai/matcha, jarra de leche regular y vegetal, más 30 piezas de panadería surtida."
+      },
+      {
+        "id": "cat-2",
+        "name": "Barra Móvil Moulú",
+        "people": "40 – 80 personas",
+        "price": "Desde $5,900 MXN",
+        "details": "Barista en vivo por 3 horas preparando Centinela, Salty Latte, Matcha Ceremonial, americanos y lattes calientes o fríos."
+      },
+      {
+        "id": "cat-3",
+        "name": "Brunch Box Corporativo",
+        "people": "15+ personas",
+        "price": "Desde $210 MXN / pza",
+        "details": "Cajas individuales con medio sándwich artesanal, galleta de la casa, fruta fresca y bebida fría a elegir."
+      }
+    ],
+    "ctaText": "Cotizar Catering por WhatsApp"
+  },
+  "mayoreo": {
+    "title": "Venta a Mayoreo",
+    "subtitle": "Aliados de cafeterías, restaurantes y oficinas",
+    "description": "Abastecemos tu negocio en Mexicali con panadería artesanal horneada cada madrugada, galletas de línea y café de especialidad tostado por lote.",
+    "benefits": [
+      "Precios preferenciales por volumen y entregas programadas",
+      "Horneado diario sin conservadores",
+      "Muestras de degustación sin costo para negocios",
+      "Facturación disponible"
+    ],
+    "products": [
+      {
+        "id": "may-1",
+        "name": "Panadería & Viennoiserie",
+        "minOrder": "Mínimo 24 pzas",
+        "description": "Croissants, roles de canela, panqués y pan dulce de temporada listos para tu vitrina."
+      },
+      {
+        "id": "may-2",
+        "name": "Galletas de Especialidad",
+        "minOrder": "Mínimo 30 pzas",
+        "description": "Chocolate chunk con sal, matcha macadamia y avena arándano en empaque individual o charola."
+      },
+      {
+        "id": "may-3",
+        "name": "Café de Especialidad en Grano",
+        "minOrder": "Desde 5 kg",
+        "description": "Tueste medio ideal para barra de espresso o métodos de extracción, con asesoría de calibración."
+      }
+    ],
+    "ctaText": "Solicitar Catálogo de Mayoreo"
+  },
+  "novedades": [
+    {
+      "id": "nov-1",
+      "title": "Menú de Temporada: Otoño / Invierno",
+      "date": "Noviembre 2026",
+      "badge": "Nuevo",
+      "description": "Ya disponibles nuestro Pumpkin Spice Latte con especias naturales y el nuevo Croissant Egg & Bacon en barra de brunch.",
+      "active": true
+    },
+    {
+      "id": "nov-2",
+      "title": "Sábados de Pan Recién Horneado",
+      "date": "Todos los sábados",
+      "badge": "Evento",
+      "description": "Llega temprano desde las 7:30 am por lotes limitados de roles de cardamomo y focaccia artesanal.",
+      "active": true
+    },
+    {
+      "id": "nov-3",
+      "title": "Agenda Abierta para Posadas y Eventos",
+      "date": "Cupo limitado",
+      "badge": "Catering",
+      "description": "Reserva nuestra barra móvil de café y charolas de repostería para tus posadas y cierres de año empresariales.",
+      "active": true
+    }
+  ]
+}
