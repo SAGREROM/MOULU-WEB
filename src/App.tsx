@@ -4,6 +4,7 @@ import { Navbar } from './components/Navbar';
 import { QuadrantsSection } from './components/QuadrantsSection';
 import { MenuSection } from './components/MenuSection';
 import { ServicesSections } from './components/ServicesSections';
+import { ReviewRewardSection } from './components/ReviewRewardSection';
 import { NewsAndFooter } from './components/NewsAndFooter';
 import { AdminPanel } from './components/AdminPanel';
 import type { MenuSectionKey, SiteData } from './types/site';
@@ -252,6 +253,8 @@ export function App() {
         mayoreo={activeData.mayoreo}
         whatsappNumber={brand.whatsappNumber}
       />
+
+      <ReviewRewardSection config={activeData.reviewReward} />
 
       <NewsAndFooter
         novedades={activeData.novedades}

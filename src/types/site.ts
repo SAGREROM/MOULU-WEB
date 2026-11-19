@@ -37,6 +37,16 @@ export interface NewsItem {
   active: boolean;
 }
 
+export interface ReviewRewardConfig {
+  enabled: boolean;
+  title: string;
+  subtitle: string;
+  rewardText: string;
+  terms: string;
+  googleMapsReviewUrl: string;
+  couponPrefix: string;
+}
+
 export interface QuadrantCard {
   id: string;
   title: string;
@@ -112,4 +122,5 @@ export interface SiteData {
   catering: CateringConfig;
   mayoreo: WholesaleConfig;
   novedades: NewsItem[];
+  reviewReward?: ReviewRewardConfig;
 }

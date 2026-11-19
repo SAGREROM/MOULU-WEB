@@ -345,5 +345,14 @@
       "description": "Reserva nuestra barra móvil de café y charolas de repostería para tus posadas y cierres de año empresariales.",
       "active": true
     }
-  ]
+  ],
+  "reviewReward": {
+    "enabled": true,
+    "title": "Tu reseña en Google Maps tiene regalo",
+    "subtitle": "Cuéntanos qué te pareció tu visita a Moulú y recibe una recompensa en tu próxima bebida o pan.",
+    "rewardText": "1 Galleta Chunk gratis o 10% de descuento en tu consumo",
+    "terms": "Válido mostrando este cupón y tu reseña publicada en Google Maps al momento de ordenar en barra. Un cupón por visita.",
+    "googleMapsReviewUrl": "https://www.google.com/maps/search/?api=1&query=Moulu+Cafe+Av+Republica+de+Brasil+866+Mexicali",
+    "couponPrefix": "MOULU"
+  }
 }

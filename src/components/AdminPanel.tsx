@@ -43,6 +43,7 @@ type AdminTab =
   | 'catering'
   | 'mayoreo'
   | 'novedades'
+  | 'resena'
   | 'publicar';
 
 const ADMIN_TABS: { key: AdminTab; label: string }[] = [
@@ -55,6 +56,7 @@ const ADMIN_TABS: { key: AdminTab; label: string }[] = [
   { key: 'catering', label: 'Catering' },
   { key: 'mayoreo', label: 'Mayoreo' },
   { key: 'novedades', label: 'Novedades' },
+  { key: 'resena', label: 'Reseña & Regalo' },
   { key: 'publicar', label: 'Publicar Versión Final' },
 ];
 
@@ -1072,6 +1074,180 @@ export function AdminPanel({
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {/* Reseña & Regalo Editor */}
+        {activeTab === 'resena' && (
+          <div className="space-y-5 rounded-2xl border border-[#E5DDD0] bg-white p-6">
+            <div className="flex items-center justify-between">
+              <h2 className="font-display text-2xl font-semibold text-[#231B15]">
+                Reseña en Google Maps & Recompensa
+              </h2>
+              <label className="inline-flex items-center gap-2 text-xs font-medium text-[#4A3D33] cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={draftData.reviewReward?.enabled ?? true}
+                  onChange={(e) =>
+                    onUpdateDraft({
+                      ...draftData,
+                      reviewReward: {
+                        enabled: e.target.checked,
+                        title: draftData.reviewReward?.title || 'Tu reseña en Google Maps tiene regalo',
+                        subtitle:
+                          draftData.reviewReward?.subtitle ||
+                          'Cuéntanos qué te pareció tu visita a Moulú y recibe una recompensa.',
+                        rewardText:
+                          draftData.reviewReward?.rewardText ||
+                          '1 Galleta Chunk gratis o 10% de descuento',
+                        terms:
+                          draftData.reviewReward?.terms ||
+                          'Válido mostrando este cupón y tu reseña en barra.',
+                        googleMapsReviewUrl:
+                          draftData.reviewReward?.googleMapsReviewUrl ||
+                          'https://www.google.com/maps',
+                        couponPrefix: draftData.reviewReward?.couponPrefix || 'MOULU',
+                      },
+                    })
+                  }
+                  className="accent-[#C67D4E]"
+                />
+                Sección activa
+              </label>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field
+                label="Título"
+                value={draftData.reviewReward?.title || ''}
+                onChange={(v) =>
+                  onUpdateDraft({
+                    ...draftData,
+                    reviewReward: {
+                      ...(draftData.reviewReward || {
+                        enabled: true,
+                        title: '',
+                        subtitle: '',
+                        rewardText: '',
+                        terms: '',
+                        googleMapsReviewUrl: '',
+                        couponPrefix: 'MOULU',
+                      }),
+                      title: v,
+                    },
+                  })
+                }
+              />
+              <Field
+                label="Prefijo del cupón (ej. MOULU)"
+                value={draftData.reviewReward?.couponPrefix || 'MOULU'}
+                onChange={(v) =>
+                  onUpdateDraft({
+                    ...draftData,
+                    reviewReward: {
+                      ...(draftData.reviewReward || {
+                        enabled: true,
+                        title: '',
+                        subtitle: '',
+                        rewardText: '',
+                        terms: '',
+                        googleMapsReviewUrl: '',
+                        couponPrefix: 'MOULU',
+                      }),
+                      couponPrefix: v,
+                    },
+                  })
+                }
+              />
+              <TextAreaField
+                label="Subtítulo"
+                value={draftData.reviewReward?.subtitle || ''}
+                onChange={(v) =>
+                  onUpdateDraft({
+                    ...draftData,
+                    reviewReward: {
+                      ...(draftData.reviewReward || {
+                        enabled: true,
+                        title: '',
+                        subtitle: '',
+                        rewardText: '',
+                        terms: '',
+                        googleMapsReviewUrl: '',
+                        couponPrefix: 'MOULU',
+                      }),
+                      subtitle: v,
+                    },
+                  })
+                }
+                full
+              />
+              <Field
+                label="Regalo o descuento (ej. 1 Galleta gratis o 10% OFF)"
+                value={draftData.reviewReward?.rewardText || ''}
+                onChange={(v) =>
+                  onUpdateDraft({
+                    ...draftData,
+                    reviewReward: {
+                      ...(draftData.reviewReward || {
+                        enabled: true,
+                        title: '',
+                        subtitle: '',
+                        rewardText: '',
+                        terms: '',
+                        googleMapsReviewUrl: '',
+                        couponPrefix: 'MOULU',
+                      }),
+                      rewardText: v,
+                    },
+                  })
+                }
+                full
+              />
+              <Field
+                label="Enlace directo de reseñas en Google Maps"
+                value={draftData.reviewReward?.googleMapsReviewUrl || ''}
+                onChange={(v) =>
+                  onUpdateDraft({
+                    ...draftData,
+                    reviewReward: {
+                      ...(draftData.reviewReward || {
+                        enabled: true,
+                        title: '',
+                        subtitle: '',
+                        rewardText: '',
+                        terms: '',
+                        googleMapsReviewUrl: '',
+                        couponPrefix: 'MOULU',
+                      }),
+                      googleMapsReviewUrl: v,
+                    },
+                  })
+                }
+                full
+              />
+              <TextAreaField
+                label="Términos y condiciones del cupón"
+                value={draftData.reviewReward?.terms || ''}
+                onChange={(v) =>
+                  onUpdateDraft({
+                    ...draftData,
+                    reviewReward: {
+                      ...(draftData.reviewReward || {
+                        enabled: true,
+                        title: '',
+                        subtitle: '',
+                        rewardText: '',
+                        terms: '',
+                        googleMapsReviewUrl: '',
+                        couponPrefix: 'MOULU',
+                      }),
+                      terms: v,
+                    },
+                  })
+                }
+                full
+              />
+            </div>
           </div>
         )}
 
