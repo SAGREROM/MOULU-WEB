@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Check, Copy, ExternalLink, Gift, Star } from 'lucide-react';
+import { Check, ExternalLink, Gift } from 'lucide-react';
 import type { ReviewRewardConfig } from '../types/site';
 import { Reveal } from './Reveal';
 
@@ -10,23 +10,22 @@ interface ReviewRewardSectionProps {
 interface SavedCoupon {
   code: string;
   name: string;
-  stars: number;
   createdAt: string;
 }
 
 const COUPON_STORAGE_KEY = 'moulu_review_coupon_v1';
 
 function generateCouponCode(prefix: string): string {
-  const cleanPrefix = (prefix || 'MOULU').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8);
+  const cleanPrefix = (prefix || 'MOULU')
+    .toUpperCase()
+    .replace(/[^A-Z0-9]/g, '')
+    .slice(0, 8);
   const rand = Math.random().toString(36).substring(2, 6).toUpperCase();
   return `${cleanPrefix}-${rand}`;
 }
 
 export function ReviewRewardSection({ config }: ReviewRewardSectionProps) {
-  const [stars, setStars] = useState(5);
-  const [comment, setComment] = useState('');
   const [customerName, setCustomerName] = useState('');
-  const [copied, setCopied] = useState(false);
   const [openedMaps, setOpenedMaps] = useState(false);
   const [coupon, setCoupon] = useState<SavedCoupon | null>(() => {
     try {
@@ -39,24 +38,12 @@ export function ReviewRewardSection({ config }: ReviewRewardSectionProps) {
 
   if (!config || !config.enabled) return null;
 
-  const handleCopyText = async () => {
-    if (!comment.trim()) return;
-    try {
-      await navigator.clipboard.writeText(comment.trim());
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      // Ignore clipboard errors in restricted browsers
-    }
-  };
-
   const handleClaimCoupon = (e: React.FormEvent) => {
     e.preventDefault();
     if (!customerName.trim()) return;
     const nextCoupon: SavedCoupon = {
       code: generateCouponCode(config.couponPrefix),
       name: customerName.trim(),
-      stars,
       createdAt: new Date().toLocaleDateString('es-MX'),
     };
     localStorage.setItem(COUPON_STORAGE_KEY, JSON.stringify(nextCoupon));
@@ -94,10 +81,10 @@ export function ReviewRewardSection({ config }: ReviewRewardSectionProps) {
                 </div>
               </div>
 
-              {/* Right interactive steps or coupon */}
-              <div className="p-8 sm:p-10 lg:col-span-7">
+              {/* Right 2-step flow or coupon */}
+              <div className="flex flex-col justify-center p-8 sm:p-10 lg:col-span-7">
                 {coupon ? (
-                  <div className="flex h-full flex-col justify-center text-center">
+                  <div className="text-center">
                     <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
                       <Check className="h-6 w-6" />
                     </div>
@@ -126,89 +113,40 @@ export function ReviewRewardSection({ config }: ReviewRewardSectionProps) {
                     <p className="mt-4 text-xs text-[#7A6858]">{config.terms}</p>
                   </div>
                 ) : (
-                  <form onSubmit={handleClaimCoupon} className="space-y-5">
-                    {/* Step 1 */}
+                  <form onSubmit={handleClaimCoupon} className="space-y-6">
                     <div>
                       <span className="text-xs font-semibold uppercase tracking-wider text-[#C67D4E]">
-                        Paso 1 • Califica y escribe tu experiencia
+                        Paso 1 • Deja tu reseña directo en Google Maps
                       </span>
-                      <div className="mt-2 flex items-center gap-1.5">
-                        {[1, 2, 3, 4, 5].map((n) => (
-                          <button
-                            key={n}
-                            type="button"
-                            onClick={() => setStars(n)}
-                            aria-label={`${n} estrellas`}
-                            className="p-1 transition hover:scale-110 cursor-pointer"
-                          >
-                            <Star
-                              className={`h-6 w-6 ${
-                                n <= stars
-                                  ? 'fill-[#E5A93B] text-[#E5A93B]'
-                                  : 'text-[#D8CEC0]'
-                              }`}
-                            />
-                          </button>
-                        ))}
-                      </div>
-                      <textarea
-                        rows={2}
-                        value={comment}
-                        onChange={(e) => setComment(e.target.value)}
-                        placeholder="Ej. Me encantó el Centinela y los chilaquiles, súper ambiente pet-friendly..."
-                        className="mt-2 w-full rounded-xl border border-[#D8CEC0] px-3.5 py-2.5 text-sm text-[#1A1714] outline-none focus:border-[#C67D4E]"
-                      />
-                      {comment.trim() && (
-                        <button
-                          type="button"
-                          onClick={handleCopyText}
-                          className="mt-1.5 inline-flex items-center gap-1.5 text-xs font-medium text-[#9E592E] hover:underline cursor-pointer"
-                        >
-                          {copied ? (
-                            <>
-                              <Check className="h-3.5 w-3.5" /> Texto copiado
-                            </>
-                          ) : (
-                            <>
-                              <Copy className="h-3.5 w-3.5" /> Copiar texto para pegarlo en Google Maps
-                            </>
-                          )}
-                        </button>
-                      )}
-                    </div>
-
-                    {/* Step 2 */}
-                    <div className="border-t border-[#EFE7DA] pt-4">
-                      <span className="text-xs font-semibold uppercase tracking-wider text-[#C67D4E]">
-                        Paso 2 • Publica tu reseña en Google Maps
-                      </span>
-                      <div className="mt-2">
+                      <p className="mt-1.5 text-sm text-[#5C4D40]">
+                        Si ya tienes tu cuenta de Google abierta, se abrirá directo la ventana para calificar en segundos:
+                      </p>
+                      <div className="mt-3">
                         <a
                           href={config.googleMapsReviewUrl}
                           target="_blank"
                           rel="noreferrer"
                           onClick={() => setOpenedMaps(true)}
-                          className="inline-flex items-center gap-2 rounded-full bg-[#1A1714] px-5 py-2.5 text-xs font-semibold text-white transition hover:bg-[#C67D4E]"
+                          className="inline-flex items-center gap-2 rounded-full bg-[#1A1714] px-6 py-3 text-xs font-semibold text-white transition hover:bg-[#C67D4E]"
                         >
-                          <ExternalLink className="h-3.5 w-3.5" />
-                          Abrir Google Maps para dejar reseña
+                          <ExternalLink className="h-4 w-4" />
+                          Dejar mi reseña en Google Maps
                         </a>
                       </div>
                     </div>
 
-                    {/* Step 3 */}
-                    <div className="border-t border-[#EFE7DA] pt-4">
+                    <div className="border-t border-[#EFE7DA] pt-5">
                       <span className="text-xs font-semibold uppercase tracking-wider text-[#C67D4E]">
-                        Paso 3 • Reclama tu cupón
+                        Paso 2 • Genera tu cupón de regalo
                       </span>
-                      <div className="mt-2 flex flex-col gap-2.5 sm:flex-row">
+                      <div className="mt-2.5 flex flex-col gap-2.5 sm:flex-row">
                         <input
                           type="text"
                           required
                           value={customerName}
                           onChange={(e) => setCustomerName(e.target.value)}
                           placeholder="Tu nombre"
-                          className="flex-1 rounded-full border border-[#D8CEC0] px-4 py-2 text-sm outline-none focus:border-[#C67D4E]"
+                          className="flex-1 rounded-full border border-[#D8CEC0] px-4 py-2.5 text-sm outline-none focus:border-[#C67D4E]"
                         />
                         <button
                           type="submit"
@@ -216,7 +154,7 @@ export function ReviewRewardSection({ config }: ReviewRewardSectionProps) {
                           title={
                             openedMaps
                               ? 'Generar cupón'
-                              : 'Primero abre Google Maps en el Paso 2'
+                              : 'Primero haz clic en Paso 1'
                           }
                           className="rounded-full bg-[#B55E2E] px-6 py-2.5 text-xs font-semibold text-white transition hover:bg-[#9B4E23] disabled:opacity-45 cursor-pointer disabled:cursor-not-allowed"
                         >
@@ -225,7 +163,7 @@ export function ReviewRewardSection({ config }: ReviewRewardSectionProps) {
                       </div>
                       {!openedMaps && (
                         <p className="mt-1.5 text-[11px] text-[#8C7A68]">
-                          Primero abre Google Maps en el Paso 2 para habilitar tu cupón.
+                          Primero abre Google Maps en el Paso 1 para desbloquear tu cupón.
                         </p>
                       )}
                     </div>
