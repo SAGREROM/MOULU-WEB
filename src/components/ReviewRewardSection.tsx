@@ -10,24 +10,33 @@ interface ReviewRewardSectionProps {
 interface SavedCoupon {
   code: string;
   name: string;
+  googleEmail: string;
   createdAt: string;
   redeemed?: boolean;
   redeemedAt?: string;
 }
 
 const COUPON_STORAGE_KEY = 'moulu_review_coupon_v1';
+const USED_EMAILS_KEY = 'moulu_review_emails_v1';
 
-function generateCouponCode(prefix: string): string {
+function generateCouponCodeForEmail(prefix: string, email: string): string {
   const cleanPrefix = (prefix || 'MOULU')
     .toUpperCase()
     .replace(/[^A-Z0-9]/g, '')
     .slice(0, 8);
-  const rand = Math.random().toString(36).substring(2, 6).toUpperCase();
-  return `${cleanPrefix}-${rand}`;
+  const normalized = email.trim().toLowerCase();
+  let hash = 0;
+  for (let i = 0; i < normalized.length; i++) {
+    hash = (hash * 31 + normalized.charCodeAt(i)) >>> 0;
+  }
+  const codePart = hash.toString(36).toUpperCase().padStart(5, '0').slice(0, 5);
+  return `${cleanPrefix}-${codePart}`;
 }
 
 export function ReviewRewardSection({ config }: ReviewRewardSectionProps) {
   const [customerName, setCustomerName] = useState('');
+  const [googleEmail, setGoogleEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
   const [openedMaps, setOpenedMaps] = useState(false);
   const [confirmedPublished, setConfirmedPublished] = useState(false);
   const [coupon, setCoupon] = useState<SavedCoupon | null>(() => {
@@ -43,10 +52,28 @@ export function ReviewRewardSection({ config }: ReviewRewardSectionProps) {
 
   const handleClaimCoupon = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!customerName.trim() || !openedMaps || !confirmedPublished) return;
+    const cleanEmail = googleEmail.trim().toLowerCase();
+    if (!customerName.trim() || !cleanEmail.includes('@') || !openedMaps || !confirmedPublished) {
+      setEmailError('Ingresa un correo de Google válido.');
+      return;
+    }
+    try {
+      const usedRaw = localStorage.getItem(USED_EMAILS_KEY);
+      const usedList: string[] = usedRaw ? (JSON.parse(usedRaw) as string[]) : [];
+      if (usedList.includes(cleanEmail)) {
+        setEmailError('Esta cuenta de Google ya generó su cupón en este dispositivo.');
+        return;
+      }
+      localStorage.setItem(USED_EMAILS_KEY, JSON.stringify([...usedList, cleanEmail]));
+    } catch {
+      // Ignore storage read errors
+    }
+
+    setEmailError('');
     const nextCoupon: SavedCoupon = {
-      code: generateCouponCode(config.couponPrefix),
+      code: generateCouponCodeForEmail(config.couponPrefix, cleanEmail),
       name: customerName.trim(),
+      googleEmail: cleanEmail,
       createdAt: new Date().toLocaleDateString('es-MX'),
       redeemed: false,
     };
@@ -152,7 +179,7 @@ export function ReviewRewardSection({ config }: ReviewRewardSectionProps) {
                         {config.rewardText}
                       </p>
                       <p className="mt-1 text-[11px] text-[#8C7A68]">
-                        Titular: {coupon.name} • {coupon.createdAt}
+                        Titular: {coupon.name} ({coupon.googleEmail}) • {coupon.createdAt}
                       </p>
                     </div>
 
@@ -212,19 +239,35 @@ export function ReviewRewardSection({ config }: ReviewRewardSectionProps) {
                           Confirmo que ya publiqué mi reseña en Google Maps y sé que deberé mostrarla en barra para validar mi regalo.
                         </span>
                       </label>
-                      <div className="flex flex-col gap-2.5 sm:flex-row">
+                      <div className="grid gap-2.5 sm:grid-cols-2">
                         <input
                           type="text"
                           required
                           value={customerName}
                           onChange={(e) => setCustomerName(e.target.value)}
                           placeholder="Tu nombre (como aparece en Google)"
-                          className="flex-1 rounded-full border border-[#D8CEC0] px-4 py-2.5 text-sm outline-none focus:border-[#C67D4E]"
+                          className="rounded-full border border-[#D8CEC0] px-4 py-2.5 text-sm outline-none focus:border-[#C67D4E]"
                         />
+                        <input
+                          type="email"
+                          required
+                          value={googleEmail}
+                          onChange={(e) => {
+                            setGoogleEmail(e.target.value);
+                            setEmailError('');
+                          }}
+                          placeholder="Tu correo de Google (ej. @gmail.com)"
+                          className="rounded-full border border-[#D8CEC0] px-4 py-2.5 text-sm outline-none focus:border-[#C67D4E]"
+                        />
+                      </div>
+                      {emailError && (
+                        <p className="text-xs text-red-600">{emailError}</p>
+                      )}
+                      <div>
                         <button
                           type="submit"
                           disabled={!openedMaps || !confirmedPublished}
-                          className="rounded-full bg-[#B55E2E] px-6 py-2.5 text-xs font-semibold text-white transition hover:bg-[#9B4E23] disabled:opacity-45 cursor-pointer disabled:cursor-not-allowed"
+                          className="w-full rounded-full bg-[#B55E2E] px-6 py-2.5 text-xs font-semibold text-white transition hover:bg-[#9B4E23] disabled:opacity-45 cursor-pointer disabled:cursor-not-allowed sm:w-auto"
                         >
                           Obtener mi regalo
                         </button>
