@@ -19,13 +19,13 @@ export function QuadrantsSection({
           const pos = card.imagePosition || '50% 50%';
           const zoom = card.imageZoom ?? 1;
           return (
-            <Reveal key={card.id} delayMs={idx * 70}>
-              <article className="group grid min-h-[260px] overflow-hidden border border-[#E2D8CA] bg-white shadow-xs transition hover:shadow-md sm:grid-cols-2">
-                <div className="relative min-h-[200px] overflow-hidden sm:min-h-full">
+            <Reveal key={card.id} delayMs={idx * 70} className="h-full">
+              <article className="group grid h-full overflow-hidden border border-[#E2D8CA] bg-white shadow-xs transition hover:shadow-md sm:h-[300px] sm:grid-cols-2">
+                <div className="relative h-56 overflow-hidden sm:h-full">
                   <img
                     src={card.image}
                     alt={card.title}
-                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                    className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
                     style={{
                       objectPosition: pos,
                       transform: `scale(${zoom})`,
@@ -34,17 +34,17 @@ export function QuadrantsSection({
                   />
                 </div>
 
-                <div className="flex flex-col items-center justify-center bg-[#B55E2E] px-6 py-8 text-center text-white">
-                  <h3 className="font-display text-2xl font-semibold tracking-wider uppercase sm:text-3xl">
+                <div className="flex h-full flex-col items-center justify-center bg-[#B55E2E] px-6 py-7 text-center text-white">
+                  <h3 className="font-display text-2xl font-semibold tracking-wider uppercase sm:text-[26px] leading-tight">
                     {card.title}
                   </h3>
-                  <p className="mt-3 max-w-xs text-xs leading-relaxed text-white/90 sm:text-sm">
+                  <p className="mt-2.5 max-w-xs text-xs leading-relaxed text-white/90 sm:text-sm line-clamp-3">
                     {card.description}
                   </p>
                   <button
                     type="button"
                     onClick={() => onNavigateTarget(card.target)}
-                    className="mt-6 bg-[#DFBE99] px-6 py-2.5 text-xs font-semibold text-[#231B15] transition hover:-translate-y-0.5 hover:bg-[#F4E6D4] cursor-pointer"
+                    className="mt-5 shrink-0 bg-[#DFBE99] px-6 py-2.5 text-xs font-semibold text-[#231B15] transition hover:-translate-y-0.5 hover:bg-[#F4E6D4] cursor-pointer"
                   >
                     {card.buttonText}
                   </button>
