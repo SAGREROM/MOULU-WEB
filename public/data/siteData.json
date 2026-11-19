@@ -1,6 +1,6 @@
 {
-  "version": 2,
-  "updatedAt": "2026-11-18",
+  "version": 3,
+  "updatedAt": "2026-11-19",
   "brand": {
     "name": "Moulú Café",
     "tagline": "Café de especialidad, brunch & panadería artesanal",
@@ -74,7 +74,9 @@
         "description": "Nuestra bebida estrella: refrescante limonada artesanal coronada con un shot de espresso de especialidad.",
         "tag": "Favorito",
         "available": true,
-        "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=600&q=80"
+        "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=600&q=80",
+        "imagePosition": "50% 50%",
+        "imageZoom": 1
       },
       {
         "id": "beb-2",
@@ -348,11 +350,11 @@
   ],
   "reviewReward": {
     "enabled": true,
-    "title": "Tu reseña en Google Maps tiene regalo",
-    "subtitle": "Cuéntanos qué te pareció tu visita a Moulú y recibe una recompensa en tu próxima bebida o pan.",
-    "rewardText": "1 Galleta Chunk gratis o 10% de descuento en tu consumo",
-    "terms": "Válido mostrando este cupón y tu reseña publicada en Google Maps al momento de ordenar en barra. Un cupón por visita.",
-    "googleMapsReviewUrl": "https://maps.google.com/maps?cid=7553482969067018322",
+    "title": "",
+    "subtitle": "",
+    "rewardText": "",
+    "terms": "",
+    "googleMapsReviewUrl": "https://www.google.com/maps/place/Moul%C3%BA+Cafe/@32.6670022,-115.4346913,17z/data=!3m1!4b1!4m6!3m5!1s0x80d7719af70d1181:0x68d35cbd8433d852!8m2!3d32.6670022!4d-115.4346913!16s%2Fg%2F11lq6dfy4d?entry=ttu&g_ep=EgoyMDI2MTExNi4wIKXMDSoASAFQAw%3D%3D",
     "couponPrefix": "MOULU"
   }
 }
