@@ -355,6 +355,13 @@ export function AdminPanel({
                 onChange={(v) => updateBrand('instagramUrl', v)}
               />
               <Field
+                label="Feed automático de Instagram (URL JSON de Behold.so, opcional)"
+                value={draftData.brand.instagramFeedUrl || ''}
+                onChange={(v) => updateBrand('instagramFeedUrl', v)}
+                placeholder="https://feeds.behold.so/..."
+                full
+              />
+              <Field
                 label="WhatsApp (con código de país, ej. 526861234567)"
                 value={draftData.brand.whatsappNumber}
                 onChange={(v) => updateBrand('whatsappNumber', v)}

@@ -82,6 +82,7 @@ export interface BrandConfig {
   hours: string;
   instagramHandle: string;
   instagramUrl: string;
+  instagramFeedUrl?: string;
   whatsappNumber: string;
   petFriendlyNote: string;
   galleryImages: string[];

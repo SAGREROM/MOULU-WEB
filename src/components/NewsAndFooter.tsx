@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Calendar, Clock, Instagram, MapPin, PawPrint, X } from 'lucide-react';
 import type { BrandConfig, GalleryPhoto, NewsItem } from '../types/site';
 import { Reveal } from './Reveal';
@@ -16,8 +16,56 @@ export function NewsAndFooter({
   updatedAt,
 }: NewsAndFooterProps) {
   const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
+  const [liveFeedPhotos, setLiveFeedPhotos] = useState<GalleryPhoto[] | null>(null);
+
+  useEffect(() => {
+    const feedUrl = brand.instagramFeedUrl?.trim();
+    if (!feedUrl) {
+      setLiveFeedPhotos(null);
+      return;
+    }
+    fetch(feedUrl)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json: unknown) => {
+        const posts = Array.isArray(json)
+          ? json
+          : (json as { posts?: unknown[] })?.posts;
+        if (!Array.isArray(posts)) return;
+        const mapped: GalleryPhoto[] = posts
+          .slice(0, 8)
+          .map((p, idx) => {
+            const post = p as {
+              id?: string;
+              mediaUrl?: string;
+              thumbnailUrl?: string;
+              sizes?: { medium?: { mediaUrl?: string }; large?: { mediaUrl?: string } };
+              permalink?: string;
+            };
+            const url =
+              post.sizes?.medium?.mediaUrl ||
+              post.sizes?.large?.mediaUrl ||
+              post.thumbnailUrl ||
+              post.mediaUrl ||
+              '';
+            return {
+              id: post.id || `ig-${idx}`,
+              url,
+              position: '50% 50%',
+              zoom: 1,
+            };
+          })
+          .filter((p) => Boolean(p.url));
+        if (mapped.length > 0) {
+          setLiveFeedPhotos(mapped);
+        }
+      })
+      .catch(() => {
+        // Fallback to static gallery if feed fails
+      });
+  }, [brand.instagramFeedUrl]);
+
   const activeNews = novedades.filter((n) => n.active);
-  const gallery: GalleryPhoto[] =
+  const staticGallery: GalleryPhoto[] =
     brand.galleryPhotos && brand.galleryPhotos.length > 0
       ? brand.galleryPhotos
       : (brand.galleryImages || []).map((url, idx) => ({
@@ -26,6 +74,7 @@ export function NewsAndFooter({
           position: '50% 50%',
           zoom: 1,
         }));
+  const gallery = liveFeedPhotos ?? staticGallery;
 
   return (
     <>
