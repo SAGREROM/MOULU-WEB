@@ -364,6 +364,18 @@ export function AdminPanel({
                 onChange={(v) => updateBrand('petFriendlyNote', v)}
                 full
               />
+              <Field
+                label="Imagen principal (URL de foto Hero)"
+                value={draftData.brand.heroImage || ''}
+                onChange={(v) => updateBrand('heroImage', v)}
+                full
+              />
+              <Field
+                label="Texto de la cinta en movimiento (Marquee)"
+                value={draftData.brand.marqueeText || ''}
+                onChange={(v) => updateBrand('marqueeText', v)}
+                full
+              />
             </div>
           </div>
         )}
@@ -490,7 +502,16 @@ export function AdminPanel({
                     catering: { ...draftData.catering, ctaText: v },
                   })
                 }
-                full
+              />
+              <Field
+                label="Imagen de Catering (URL)"
+                value={draftData.catering.image || ''}
+                onChange={(v) =>
+                  onUpdateDraft({
+                    ...draftData,
+                    catering: { ...draftData.catering, image: v },
+                  })
+                }
               />
             </div>
 
@@ -642,7 +663,16 @@ export function AdminPanel({
                     mayoreo: { ...draftData.mayoreo, ctaText: v },
                   })
                 }
-                full
+              />
+              <Field
+                label="Imagen de Mayoreo (URL)"
+                value={draftData.mayoreo.image || ''}
+                onChange={(v) =>
+                  onUpdateDraft({
+                    ...draftData,
+                    mayoreo: { ...draftData.mayoreo, image: v },
+                  })
+                }
               />
             </div>
 
@@ -999,3 +1029,4 @@ function TextAreaField({
     </div>
   );
 }
+

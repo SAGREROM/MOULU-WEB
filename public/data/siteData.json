@@ -1,14 +1,16 @@
 {
-  "version": 1,
+  "version": 2,
   "updatedAt": "2026-11-18",
   "brand": {
     "name": "Moulú Café",
     "tagline": "Café de especialidad, brunch & panadería artesanal",
     "heroBadge": "Mexicali, B.C. • Pet Friendly",
-    "heroTitle": "Tu pausa favorita entre café de especialidad y pan recién horneado.",
-    "heroSubtitle": "En el corazón de Compuertas preparamos barras de autor, matcha ceremonial grado A, brunch al momento y panadería artesanal todos los días.",
+    "heroTitle": "Lo fresco va primero.",
+    "heroSubtitle": "Café de especialidad, bebidas de autor como Centinela y Salty Latte, matcha ceremonial grado A, brunch al momento y panadería horneada cada mañana en Mexicali.",
+    "heroImage": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1400&q=80",
+    "marqueeText": "Café de Especialidad · Brunch · Panadería Artesanal · Catering · Venta a Mayoreo · Pet Friendly · Mexicali ·",
     "storyTitle": "Hecho con calma, grano selecto y manos cachanillas.",
-    "storyText": "Moulú nació para ser ese rincón luminoso en Mexicali donde el espresso de especialidad convive con un buen brunch, pan dulce tibio y espacio para venir con tu mascota.",
+    "storyText": "Moulú nació para ser ese rincón luminoso en Compuertas donde el espresso de especialidad convive con un buen brunch, pan dulce tibio y espacio para venir con tu mascota.",
     "address": "Av. República de Brasil #866, Col. Compuertas, C.P. 21218",
     "city": "Mexicali, Baja California",
     "hours": "Lun a Sáb 7:30 am – 8:00 pm • Dom 8:30 am – 3:00 pm",
@@ -16,6 +18,12 @@
     "instagramUrl": "https://www.instagram.com/moulu_mxli/",
     "whatsappNumber": "526860000000",
     "petFriendlyNote": "Espacio 100% Pet Friendly — ¡pregunta por nuestros snacks especiales para tu lomito!",
+    "galleryImages": [
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=800&q=80"
+    ],
     "adminPin": "1234"
   },
   "menu": {
@@ -203,6 +211,7 @@
     "title": "Catering & Barra Móvil",
     "subtitle": "Lleva la experiencia Moulú a tu evento",
     "description": "Bodas, coffee breaks corporativos, cumpleaños, baby showers o inauguraciones en Mexicali. Llevamos nuestra barra de café de especialidad, matcha ceremonial y charolas de panadería y brunch directo a tu evento.",
+    "image": "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=1000&q=80",
     "highlights": [
       "Barra de espresso y bebidas frías con barista profesional",
       "Opciones de leche vegetal (soya, almendra y avena) incluidas",
@@ -235,9 +244,10 @@
     "ctaText": "Cotizar Catering por WhatsApp"
   },
   "mayoreo": {
-    "title": "Venta a Mayoreo",
-    "subtitle": "Aliados de cafeterías, restaurantes y oficinas",
+    "title": "¿Te interesa vender pan o café en tu negocio?",
+    "subtitle": "Venta a Mayoreo para cafeterías, restaurantes y oficinas",
     "description": "Abastecemos tu negocio en Mexicali con panadería artesanal horneada cada madrugada, galletas de línea y café de especialidad tostado por lote.",
+    "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1000&q=80",
     "benefits": [
       "Precios preferenciales por volumen y entregas programadas",
       "Horneado diario sin conservadores",
@@ -264,7 +274,7 @@
         "description": "Tueste medio ideal para barra de espresso o métodos de extracción, con asesoría de calibración."
       }
     ],
-    "ctaText": "Solicitar Catálogo de Mayoreo"
+    "ctaText": "Hazlo realidad"
   },
   "novedades": [
     {

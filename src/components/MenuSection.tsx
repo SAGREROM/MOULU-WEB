@@ -142,3 +142,4 @@ export function MenuSection({ menu }: MenuSectionProps) {
     </section>
   );
 }
+

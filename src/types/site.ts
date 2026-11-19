@@ -40,6 +40,8 @@ export interface BrandConfig {
   heroBadge: string;
   heroTitle: string;
   heroSubtitle: string;
+  heroImage: string;
+  marqueeText: string;
   storyTitle: string;
   storyText: string;
   address: string;
@@ -49,6 +51,7 @@ export interface BrandConfig {
   instagramUrl: string;
   whatsappNumber: string;
   petFriendlyNote: string;
+  galleryImages: string[];
   adminPin: string;
 }
 
@@ -56,6 +59,7 @@ export interface CateringConfig {
   title: string;
   subtitle: string;
   description: string;
+  image: string;
   highlights: string[];
   packages: CateringPackage[];
   ctaText: string;
@@ -65,6 +69,7 @@ export interface WholesaleConfig {
   title: string;
   subtitle: string;
   description: string;
+  image: string;
   benefits: string[];
   products: WholesaleProduct[];
   ctaText: string;
