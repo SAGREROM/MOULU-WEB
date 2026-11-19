@@ -1,6 +1,5 @@
 import { ArrowUpRight, CheckCircle2, MessageCircle, Package, Sparkles } from 'lucide-react';
 import type { CateringConfig, WholesaleConfig } from '../types/site';
-import { Reveal } from './Reveal';
 
 interface ServicesSectionsProps {
   catering: CateringConfig;
