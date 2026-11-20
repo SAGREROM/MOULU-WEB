@@ -350,7 +350,7 @@
     }
   ],
   "reviewReward": {
-    "enabled": true,
+    "enabled": false,
     "title": "",
     "subtitle": "",
     "rewardText": "",
